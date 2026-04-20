@@ -3,6 +3,16 @@
 import React, { CSSProperties } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
+import {
+  FiExternalLink,
+  FiGithub,
+  FiFolder,
+  FiLayers,
+  FiSmartphone,
+  FiPieChart,
+  FiBriefcase,
+} from 'react-icons/fi';
+import type { IconType } from 'react-icons';
 
 interface Project {
   id: number;
@@ -73,6 +83,14 @@ const projects: Project[] = [
     githubUrl: "#"
   }
 ];
+
+const categoryIcons: Record<string, IconType> = {
+  ERP: FiLayers,
+  Hospitality: FiFolder,
+  Financeiro: FiPieChart,
+  Mobile: FiSmartphone,
+  Operacao: FiBriefcase,
+};
 
 interface ProjectsSectionProps {
   accentColor?: string;
@@ -147,97 +165,88 @@ export default function ProjectsSection({
           whileInView="visible"
           viewport={{ once: true, amount: 0.12 }}
         >
-          {projects.map((project) => (
-            <motion.div
-              key={project.id}
-              className="glass project-card overflow-hidden"
-              variants={itemVariants}
-              whileHover={{ 
-                scale: 1.006,
-                y: -6,
-                boxShadow: `0 24px 54px rgba(${accentRgb}, 0.16)`
-              }}
-              transition={{ type: "spring", stiffness: 200, damping: 28 }}
-            >
-              <div className="project-preview relative overflow-hidden">
-                <div className="project-preview-grid absolute inset-0" />
-                <div className="project-preview-glow absolute inset-0" style={{ background: `radial-gradient(circle at 30% 30%, ${accentColor}55, transparent 55%)` }} />
-                <div className="project-image-overlay absolute inset-0 transition-opacity duration-300" />
-                <div className="project-preview-orb project-preview-orb-main" style={{ backgroundColor: accentColor }} />
-                <div className="project-preview-orb project-preview-orb-side" />
-                <div className="project-preview-bars">
-                  <span />
-                  <span />
-                  <span />
+          {projects.map((project) => {
+            const Icon = categoryIcons[project.category] || FiFolder;
+            return (
+              <motion.article
+                key={project.id}
+                className="glass project-card-minimal"
+                variants={itemVariants}
+                whileHover={{ 
+                  scale: 1.01,
+                  y: -4,
+                  boxShadow: `0 24px 54px rgba(${accentRgb}, 0.12)`
+                }}
+                transition={{ type: "spring", stiffness: 200, damping: 28 }}
+              >
+                <div className="project-card-minimal-header">
+                  <div 
+                    className="project-icon-box"
+                    style={{
+                      background: `linear-gradient(135deg, rgba(${accentRgb}, 0.15), transparent)`,
+                      color: accentColor,
+                      borderColor: `rgba(${accentRgb}, 0.2)`
+                    }}
+                  >
+                    <Icon size={20} />
+                  </div>
+                  <div className="project-actions-minimal">
+                    {project.githubUrl && (
+                      <motion.a
+                        href={project.githubUrl}
+                        className="project-action-icon"
+                        whileHover={{ scale: 1.1, color: accentColor }}
+                        whileTap={{ scale: 0.95 }}
+                        title="GitHub"
+                      >
+                        <FiGithub size={18} />
+                      </motion.a>
+                    )}
+                    {project.liveUrl && (
+                      <motion.a
+                        href={project.liveUrl}
+                        className="project-action-icon"
+                        whileHover={{ scale: 1.1, color: accentColor }}
+                        whileTap={{ scale: 0.95 }}
+                        title="Live Demo"
+                      >
+                        <FiExternalLink size={18} />
+                      </motion.a>
+                    )}
+                  </div>
                 </div>
-                <div className="project-preview-chip">{project.category}</div>
-              </div>
-              
-              <div className="p-6">
-                <p className="mb-3 text-xs uppercase tracking-[0.3em] text-gray-400">{project.highlight}</p>
-                <h3 className="project-title mb-3 text-2xl font-bold text-white">
-                  {project.title}
-                </h3>
                 
-                <p className="mb-5 text-gray-300">
-                  {project.description}
-                </p>
+                <div className="project-card-minimal-content">
+                  <p className="project-minimal-category" style={{ color: accentColor }}>
+                    {project.category}
+                  </p>
+                  <h3 className="project-minimal-title">
+                    {project.title}
+                  </h3>
+                  
+                  <p className="project-minimal-desc">
+                    {project.description}
+                  </p>
 
-                <div className="project-metric mb-5">
-                  <span className="project-metric-line" style={{ backgroundColor: accentColor }} />
-                  <span>{project.metrics}</span>
+                  <div className="project-minimal-metrics">
+                    <p className="project-minimal-highlight">{project.highlight}</p>
+                    <p className="project-minimal-metric-text">{project.metrics}</p>
+                  </div>
+                  
+                  <div className="project-minimal-techs">
+                    {project.technologies.map((tech) => (
+                      <span
+                        key={tech}
+                        className="project-tech-pill"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                
-                <div className="mb-6 flex flex-wrap gap-2">
-                  {project.technologies.map((tech) => (
-                    <motion.span
-                      key={tech}
-                      className="rounded-full px-3 py-1 text-sm"
-                      style={{ 
-                        backgroundColor: `rgba(${accentRgb}, 0.12)`,
-                        color: accentColor
-                      }}
-                      whileHover={{ scale: 1.02, y: -1 }}
-                      transition={{ type: "spring", stiffness: 210, damping: 22 }}
-                    >
-                      {tech}
-                    </motion.span>
-                  ))}
-                </div>
-                
-                <div className="flex gap-4">
-                  {project.liveUrl && (
-                    <motion.a
-                      href={project.liveUrl}
-                      className="project-action-primary flex-1 text-center"
-                      style={{ backgroundColor: accentColor }}
-                      whileHover={{ scale: 1.01, y: -1 }}
-                      whileTap={{ scale: 0.95 }}
-                      transition={{ type: "spring", stiffness: 210, damping: 24 }}
-                    >
-                      Ver Demo
-                    </motion.a>
-                  )}
-                  {project.githubUrl && (
-                    <motion.a
-                      href={project.githubUrl}
-                      className="project-action-secondary flex-1 text-center"
-                      style={{ borderColor: accentColor, color: accentColor }}
-                      whileHover={{ 
-                        scale: 1.01,
-                        backgroundColor: accentColor,
-                        color: 'white'
-                      }}
-                      whileTap={{ scale: 0.95 }}
-                      transition={{ type: "spring", stiffness: 210, damping: 24 }}
-                    >
-                      GitHub
-                    </motion.a>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.article>
+            );
+          })}
         </motion.div>
       </div>
     </section>
