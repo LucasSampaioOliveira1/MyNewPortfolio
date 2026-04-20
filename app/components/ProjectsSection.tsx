@@ -78,12 +78,14 @@ interface ProjectsSectionProps {
   accentColor?: string;
   accentRgb?: string;
   sectionStyle?: CSSProperties;
+  sectionRef?: React.Ref<HTMLElement>;
 }
 
 export default function ProjectsSection({
   accentColor: accentColorProp,
   accentRgb: accentRgbProp,
   sectionStyle,
+  sectionRef,
 }: ProjectsSectionProps) {
   const { accentColor: themeAccentColor, accentRgb: themeAccentRgb } = useTheme();
   const accentColor = accentColorProp ?? themeAccentColor;
@@ -118,7 +120,7 @@ export default function ProjectsSection({
   };
 
   return (
-    <section id="projetos" className="relative py-24" style={sectionStyle}>
+    <section id="projetos" ref={sectionRef} className="relative py-24" style={sectionStyle}>
       <div className="section-backdrop absolute inset-0" />
       
       <div className="section-container">

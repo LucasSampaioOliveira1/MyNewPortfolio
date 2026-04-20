@@ -1,24 +1,30 @@
 'use client';
 
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import HeroSection from './components/HeroSection';
 import ProjectsSection from './components/ProjectsSection';
 import { useTheme } from './contexts/ThemeContext';
 
-const TOTAL_WAVE_SECTIONS = 7;
-const WAVE_WINDOW = 1.15;
 const ORIGIN_RGB = [59, 130, 246] as const;
 const IMPACT_RGB = [249, 115, 22] as const;
+const SECTION_KEYS = ['hero', 'resumo', 'experiencia', 'formacao', 'projetos', 'competencias', 'contato'] as const;
+
+type SectionKey = (typeof SECTION_KEYS)[number];
+
+type PageMetrics = {
+  documentHeight: number;
+  viewportHeight: number;
+};
+
+type SectionAnchors = Record<SectionKey, number>;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
 
-function getWaveProgress(sectionIndex: number, masterProgress: number) {
-  const travel = TOTAL_WAVE_SECTIONS - 1 + WAVE_WINDOW;
-  const raw = (masterProgress * travel - sectionIndex) / WAVE_WINDOW;
-  const clamped = clamp(raw, 0, 1);
-
+function smoothstep(value: number) {
+  const clamped = clamp(value, 0, 1);
   return clamped * clamped * (3 - 2 * clamped);
 }
 
@@ -28,13 +34,18 @@ function getMixedRgb(progress: number) {
   );
 }
 
-function getSectionStyle(sectionIndex: number, masterProgress: number) {
-  const progress = getWaveProgress(sectionIndex, masterProgress);
+function getSectionProgress(anchorPx: number, waveFrontPx: number, waveBandPx: number) {
+  const raw = (waveFrontPx - anchorPx + waveBandPx * 0.5) / (waveBandPx * 1.15);
+  return smoothstep(raw);
+}
+
+function getSectionStyle(progress: number) {
   const rgb = getMixedRgb(progress).join(', ');
 
   return {
     ['--section-accent-rgb' as string]: rgb,
     ['--section-accent-color' as string]: `rgb(${rgb})`,
+    ['--section-surface-border' as string]: `rgba(${rgb}, ${0.12 + progress * 0.12})`,
   } as CSSProperties;
 }
 
@@ -159,26 +170,142 @@ const skills = [
 
 export default function Home() {
   const { impactMix } = useTheme();
-  const heroProgress = getWaveProgress(0, impactMix);
-  const heroRgb = getMixedRgb(heroProgress).join(', ');
+  const sectionRefs = useRef<Record<SectionKey, HTMLElement | null>>({
+    hero: null,
+    resumo: null,
+    experiencia: null,
+    formacao: null,
+    projetos: null,
+    competencias: null,
+    contato: null,
+  });
+  const [pageMetrics, setPageMetrics] = useState<PageMetrics>({
+    documentHeight: 1,
+    viewportHeight: 1,
+  });
+  const [sectionAnchors, setSectionAnchors] = useState<SectionAnchors>({
+    hero: 220,
+    resumo: 820,
+    experiencia: 1420,
+    formacao: 2060,
+    projetos: 2720,
+    competencias: 3420,
+    contato: 4140,
+  });
+
+  const measureSections = useCallback(() => {
+    const documentHeight = Math.max(document.documentElement.scrollHeight, window.innerHeight);
+    const viewportHeight = window.innerHeight;
+
+    setPageMetrics((current) => {
+      if (
+        Math.abs(current.documentHeight - documentHeight) < 2 &&
+        Math.abs(current.viewportHeight - viewportHeight) < 2
+      ) {
+        return current;
+      }
+
+      return { documentHeight, viewportHeight };
+    });
+
+    const nextAnchors = {} as SectionAnchors;
+    SECTION_KEYS.forEach((key, index) => {
+      const node = sectionRefs.current[key];
+      if (node) {
+        nextAnchors[key] = node.offsetTop + node.offsetHeight * (key === 'hero' ? 0.28 : 0.22);
+      } else {
+        nextAnchors[key] = viewportHeight * (0.45 + index * 0.72);
+      }
+    });
+
+    setSectionAnchors((current) => {
+      const changed = SECTION_KEYS.some((key) => Math.abs(current[key] - nextAnchors[key]) > 2);
+      return changed ? nextAnchors : current;
+    });
+  }, []);
+
+  const measureFrameRef = useRef<number | null>(null);
+  const scheduleMeasure = useCallback(() => {
+    if (measureFrameRef.current !== null) {
+      cancelAnimationFrame(measureFrameRef.current);
+    }
+
+    measureFrameRef.current = requestAnimationFrame(() => {
+      measureFrameRef.current = null;
+      measureSections();
+    });
+  }, [measureSections]);
+
+  useEffect(() => {
+    scheduleMeasure();
+    window.addEventListener('resize', scheduleMeasure);
+
+    const observer = new ResizeObserver(scheduleMeasure);
+    observer.observe(document.documentElement);
+
+    return () => {
+      if (measureFrameRef.current !== null) {
+        cancelAnimationFrame(measureFrameRef.current);
+        measureFrameRef.current = null;
+      }
+      window.removeEventListener('resize', scheduleMeasure);
+      observer.disconnect();
+    };
+  }, [scheduleMeasure]);
+
+  const setSectionRef = useCallback(
+    (key: SectionKey) => (node: HTMLElement | null) => {
+      sectionRefs.current[key] = node;
+      scheduleMeasure();
+    },
+    [scheduleMeasure]
+  );
+
+  const waveBandPx = Math.max(pageMetrics.viewportHeight * 0.34, 380);
+  const waveCorePx = Math.max(pageMetrics.viewportHeight * 0.075, 72);
+  const waveOriginPx = Math.max(pageMetrics.viewportHeight * 0.22, 180);
+  const waveStartPx = waveOriginPx - waveBandPx * 0.72;
+  const waveFrontPx =
+    waveStartPx + impactMix * Math.max(pageMetrics.documentHeight - waveStartPx + waveBandPx * 1.1, 1);
+  const waveGlowOpacity = smoothstep(clamp(impactMix * 1.25, 0, 1));
+
+  const sectionProgress = useMemo(
+    () =>
+      SECTION_KEYS.reduce((acc, key) => {
+        acc[key] = getSectionProgress(sectionAnchors[key], waveFrontPx, waveBandPx);
+        return acc;
+      }, {} as Record<SectionKey, number>),
+    [sectionAnchors, waveBandPx, waveFrontPx]
+  );
+
+  const heroRgb = getMixedRgb(sectionProgress.hero).join(', ');
   const heroAccentColor = `rgb(${heroRgb})`;
-  const projectsProgress = getWaveProgress(4, impactMix);
-  const projectsRgb = getMixedRgb(projectsProgress).join(', ');
+  const projectsRgb = getMixedRgb(sectionProgress.projetos).join(', ');
   const projectsAccentColor = `rgb(${projectsRgb})`;
+  const waveStyle = {
+    ['--impact-wave-front' as string]: `${waveFrontPx}px`,
+    ['--impact-wave-band' as string]: `${waveBandPx}px`,
+    ['--impact-wave-core' as string]: `${waveCorePx}px`,
+    ['--impact-wave-opacity' as string]: `${waveGlowOpacity}`,
+  } as CSSProperties;
 
   return (
-    <main className="relative min-h-screen w-full overflow-hidden">
+    <main className="relative min-h-screen w-full overflow-hidden isolate">
+      <div className="page-impact-tint" style={waveStyle} aria-hidden="true" />
+      <div className="page-impact-wave" style={waveStyle} aria-hidden="true" />
       <HeroSection
+        sectionRef={setSectionRef('hero')}
         accentColor={heroAccentColor}
         accentRgb={heroRgb}
-        impactMix={heroProgress}
-        sectionStyle={getSectionStyle(0, impactMix)}
+        impactMix={sectionProgress.hero}
+        sectionStyle={getSectionStyle(sectionProgress.hero)}
       />
 
       <section
         id="resumo"
         className="relative border-t border-white/8 py-24"
-        style={getSectionStyle(1, impactMix)}
+        ref={setSectionRef('resumo')}
+        style={getSectionStyle(sectionProgress.resumo)}
       >
         <div className="section-backdrop absolute inset-0 opacity-60" />
         <div className="section-container">
@@ -195,7 +322,8 @@ export default function Home() {
       <section
         id="experiencia"
         className="relative border-t border-white/8 py-24"
-        style={getSectionStyle(2, impactMix)}
+        ref={setSectionRef('experiencia')}
+        style={getSectionStyle(sectionProgress.experiencia)}
       >
         <div className="section-backdrop absolute inset-0 opacity-70" />
         <div className="section-container">
@@ -243,7 +371,8 @@ export default function Home() {
       <section
         id="formacao"
         className="relative border-t border-white/8 py-24"
-        style={getSectionStyle(3, impactMix)}
+        ref={setSectionRef('formacao')}
+        style={getSectionStyle(sectionProgress.formacao)}
       >
         <div className="section-backdrop absolute inset-0 opacity-60" />
         <div className="section-container">
@@ -281,15 +410,17 @@ export default function Home() {
       </section>
 
       <ProjectsSection
+        sectionRef={setSectionRef('projetos')}
         accentColor={projectsAccentColor}
         accentRgb={projectsRgb}
-        sectionStyle={getSectionStyle(4, impactMix)}
+        sectionStyle={getSectionStyle(sectionProgress.projetos)}
       />
 
       <section
         id="competencias"
         className="relative border-t border-white/8 py-24"
-        style={getSectionStyle(5, impactMix)}
+        ref={setSectionRef('competencias')}
+        style={getSectionStyle(sectionProgress.competencias)}
       >
         <div className="section-backdrop absolute inset-0 opacity-70" />
         <div className="section-container">
@@ -320,7 +451,8 @@ export default function Home() {
       <section
         id="contato"
         className="relative flex justify-center border-t border-white/10 pb-36 pt-24"
-        style={getSectionStyle(6, impactMix)}
+        ref={setSectionRef('contato')}
+        style={getSectionStyle(sectionProgress.contato)}
       >
         <div className="section-backdrop absolute inset-0 opacity-70" />
         <div className="relative z-10 w-full max-w-6xl px-4">

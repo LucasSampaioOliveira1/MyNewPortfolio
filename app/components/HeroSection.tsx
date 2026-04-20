@@ -24,6 +24,7 @@ interface HeroSectionProps {
   accentRgb?: string;
   impactMix?: number;
   sectionStyle?: CSSProperties;
+  sectionRef?: React.Ref<HTMLElement>;
 }
 
 export default function HeroSection({
@@ -31,6 +32,7 @@ export default function HeroSection({
   accentRgb: accentRgbProp,
   impactMix,
   sectionStyle,
+  sectionRef,
 }: HeroSectionProps) {
   const { accentColor: themeAccentColor, accentRgb: themeAccentRgb } = useTheme();
   const accentColor = accentColorProp ?? themeAccentColor;
@@ -79,6 +81,7 @@ export default function HeroSection({
 
   return (
     <motion.section
+      ref={sectionRef}
       id="inicio"
       className="relative isolate min-h-screen overflow-hidden"
       style={sectionStyle}
