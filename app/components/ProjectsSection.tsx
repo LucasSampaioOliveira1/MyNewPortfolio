@@ -81,7 +81,18 @@ const projects: Project[] = [
     metrics: "Redução de 70% no tempo de confirmação de consultas e aumento de 3x nos agendamentos autônomos",
     liveUrl: "https://www.clinicalunarpsicologia.com.br/",
     // githubUrl: "#"
-  }
+  },
+  // {
+  //   id: 6,
+  //   title: "Pincel da Aprendizagem",
+  //   description: "Projeto web para ajudar crianças a se desenvolver em diferentes areas.",
+  //   category: "Educational",
+  //   technologies: ["React", "JavaScript", "Prisma", "Python", "MySQL"],
+  //   highlight: "Tarefas lúdicas para estimular criatividade e aprendizado",
+  //   metrics: "85% das crianças completam as tarefas com engajamento e 92% relatam maior interesse nas áreas propostas",
+  //   liveUrl: "https://pincel-dusky.vercel.app/",
+  //   // githubUrl: "#"
+  // },
 ];
 
 const categoryIcons: Record<string, IconType> = {

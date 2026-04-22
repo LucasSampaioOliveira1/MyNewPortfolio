@@ -164,7 +164,7 @@ const skills = [
   },
   {
     title: 'Outros',
-    items: ['Docker', 'GraphQL', 'Apollo', 'Figma'],
+    items: ['Docker', 'GraphQL', 'Apollo', 'Figma', 'Azure', 'AWS', 'Spring Boot'],
   },
 ];
 
@@ -460,22 +460,22 @@ export default function Home() {
             <div className="contact-text">
               <span className="section-eyebrow mb-4 inline-block">Contato</span>
               <h2 className="mb-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
-                Vamos transformar ideia em produto com identidade forte e execucao de verdade.
+                Interessado em construir produtos digitais de qualidade.
               </h2>
               <p className="text-base text-gray-300 sm:text-lg">
-                Se voce busca uma interface premium, um sistema escalavel ou uma operacao digital
-                melhor estruturada, podemos construir isso com clareza tecnica e boa experiencia.
+                Estou aberto a oportunidades como desenvolvedor full stack.
+                Trabalho no desenvolvimento de aplicações completas, com foco em arquitetura, escalabilidade e experiência do usuário.
               </p>
             </div>
 
             <div className="contact-actions">
-              <a href="mailto:lucassampaio@email.com" className="hero-primary-button">
+              <a href="mailto:lucas.sampaio1901@outlook.com" className="hero-primary-button">
                 Enviar e-mail
               </a>
-              <a href="#" className="hero-secondary-button">
+              <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/lucas-sampaio-oliveira/" className="hero-secondary-button">
                 LinkedIn
               </a>
-              <a href="#" className="hero-secondary-button">
+              <a target="_blank" rel="noopener noreferrer" href="https://github.com/LucasSampaioOliveira1" className="hero-secondary-button">
                 GitHub
               </a>
             </div>
