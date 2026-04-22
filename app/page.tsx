@@ -49,8 +49,8 @@ function getSectionStyle(progress: number) {
   } as CSSProperties;
 }
 
-const professionalSummary =
-  'Desenvolvedor Full Stack com solida base tecnica e cursando Engenharia de Software, com experiencia pratica em projetos web e mobile. Atua na criacao de interfaces com React, Angular, Next.js, React Native e FlutterFlow, alem de back-end com Node.js, NestJS e bancos de dados MySQL e PostgreSQL via Prisma. Focado em entregas funcionais, escalaveis e boas praticas de arquitetura, possui perfil proativo, orientado a resultados, experiencia em lideranca e compartilhamento de conhecimento, alem de perfil empreendedor na gestao de uma clinica de psicologia.';
+// const professionalSummary =
+//   'Desenvolvedor Full Stack com experiência no desenvolvimento de sistemas web e mobile, com foco em arquitetura, performance e experiência do usuário. Possui perfil empreendedor e visão de negócio, aplicando essas habilidades na criação de soluções mais eficientes e alinhadas às necessidades reais.';
 
 const experiences = [
   {
@@ -301,7 +301,7 @@ export default function Home() {
         sectionStyle={getSectionStyle(sectionProgress.hero)}
       />
 
-      <section
+      {/* <section
         id="resumo"
         className="relative border-t border-white/8 py-24"
         ref={setSectionRef('resumo')}
@@ -317,7 +317,7 @@ export default function Home() {
             <p className="text-lg text-gray-300">{professionalSummary}</p>
           </div>
         </div>
-      </section>
+      </section> */}
 
       <section
         id="experiencia"

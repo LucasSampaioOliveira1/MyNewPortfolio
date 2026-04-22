@@ -106,16 +106,16 @@ export default function HeroSection({
               transition={{ type: "spring", stiffness: 180, damping: 26 }}
               variants={itemVariants}
             >
-              Eu construo
-              <span className="gradient-text hero-title-line">experiencias digitais</span>
-              com impacto visual real.
+              Desenvolvedor
+              <span className="gradient-text hero-title-line">Fullstack</span>
+              Engenheiro de Software
             </motion.h1>
 
-            <motion.p className="hero-copy" variants={itemVariants}>
+            {/* <motion.p className="hero-copy" variants={itemVariants}>
               Desenvolvedor Full Stack cursando Engenharia de Software, com experiencia em
               produtos web e mobile usando React, Angular, Next.js, React Native, FlutterFlow,
               Node.js, NestJS, Prisma, MySQL e PostgreSQL.
-            </motion.p>
+            </motion.p> */}
 
             <motion.div
               className="hero-actions"

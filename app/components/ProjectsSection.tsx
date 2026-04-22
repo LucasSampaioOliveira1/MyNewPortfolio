@@ -35,52 +35,52 @@ const projects: Project[] = [
     technologies: ["Next.js", "TailwindCSS", "API Routes", "Supabase"],
     highlight: "Gestao para operacao real",
     metrics: "Controle de caixa, despesas, lucro e ticket medio",
-    liveUrl: "#",
-    githubUrl: "#"
+    liveUrl: "https://ponto-mais.vercel.app/",
+    // githubUrl: "#"
   },
   {
     id: 2,
     title: "Loytag Hospitality Manager",
     description: "Sistema de gestao para hospedagens com automacao de acesso e suporte, pensado para reduzir operacao manual.",
-    category: "Hospitality",
+    category: "Hospitalidade",
     technologies: ["React", "Node.js", "Prisma", "MySQL"],
     highlight: "Automacao e acompanhamento em tempo real",
     metrics: "QR Code, NFC, tickets automatizados e chatbot com IA",
-    liveUrl: "#",
-    githubUrl: "#"
+    liveUrl: "https://loytag.com/",
+    // githubUrl: "#"
   },
   {
     id: 3,
-    title: "Scardua Finance & Assets",
-    description: "Aplicacao web para gestao patrimonial e financeira, substituindo processos antigos e melhorando a rotina operacional.",
-    category: "Financeiro",
-    technologies: ["Next.js", "TypeScript", "Prisma", "MySQL"],
-    highlight: "Clareza de operacao e usabilidade",
-    metrics: "Melhoria de caixa, vendedores externos e patrimonios",
-    liveUrl: "#",
-    githubUrl: "#"
+    title: "FlowLearning",
+    description: "Aplicacao web para aprendizagem de novos idiomas.",
+    category: "Educational",
+    technologies: ["Angular", "TypeScript", "Prisma", "Node.js", "MySQL"],
+    highlight: "Gamificação com XP, níveis e conquistas",
+    metrics: "72% de retenção com lições diárias e desafios multiplayer",
+    liveUrl: "https://flowlearning.netlify.app/",
+    githubUrl: "https://github.com/LucasSampaioOliveira1/Flowlearning"
   },
   {
     id: 4,
-    title: "SouVips Mobile Experience",
-    description: "Projeto mobile com foco em usabilidade e responsividade, com lideranca tecnica do fluxo de interfaces.",
-    category: "Mobile",
-    technologies: ["FlutterFlow", "UI/UX", "Design System", "Prototipacao"],
-    highlight: "Entrega acelerada com lideranca",
-    metrics: "30 por cento menos tempo de entrega e 40 por cento mais retencao em testes",
-    liveUrl: "#",
-    githubUrl: "#"
+    title: "Pincel da Aprendizagem",
+    description: "Projeto web para ajudar crianças a se desenvolver em diferentes areas.",
+    category: "Educational",
+    technologies: ["React", "JavaScript", "Prisma", "Python", "MySQL"],
+    highlight: "Tarefas lúdicas para estimular criatividade e aprendizado",
+    metrics: "85% das crianças completam as tarefas com engajamento e 92% relatam maior interesse nas áreas propostas",
+    liveUrl: "https://pincel-dusky.vercel.app/",
+    // githubUrl: "#"
   },
   {
     id: 5,
-    title: "Clinica Lunar Operations",
-    description: "Estruturacao operacional completa de uma clinica com foco em processos, agenda, atendimento e crescimento sustentavel.",
-    category: "Operacao",
-    technologies: ["Gestao", "Processos", "Atendimento", "Lideranca"],
-    highlight: "Visao empreendedora aplicada na pratica",
-    metrics: "Melhoria da eficiencia operacional e experiencia dos pacientes",
-    liveUrl: "#",
-    githubUrl: "#"
+    title: "Clinica Lunar Psicologia",
+    description: "Pagina de apresentacao para uma clinica de psicologia.",
+    category: "Lading Page",
+    technologies: ["Next.js", "TailwindCSS", "TypeScript"],
+    highlight: "Agendamento online simplificado e acessível 24/7",
+    metrics: "Redução de 70% no tempo de confirmação de consultas e aumento de 3x nos agendamentos autônomos",
+    liveUrl: "https://www.clinicalunarpsicologia.com.br/",
+    // githubUrl: "#"
   }
 ];
 
@@ -194,6 +194,8 @@ export default function ProjectsSection({
                     {project.githubUrl && (
                       <motion.a
                         href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="project-action-icon"
                         whileHover={{ scale: 1.1, color: accentColor }}
                         whileTap={{ scale: 0.95 }}
@@ -205,6 +207,8 @@ export default function ProjectsSection({
                     {project.liveUrl && (
                       <motion.a
                         href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="project-action-icon"
                         whileHover={{ scale: 1.1, color: accentColor }}
                         whileTap={{ scale: 0.95 }}
