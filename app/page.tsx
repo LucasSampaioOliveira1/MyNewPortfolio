@@ -67,7 +67,7 @@ const experiences = [
   },
   {
     company: 'PontoMais',
-    role: 'Desenvolvedor Full Stack',
+    role: 'Desenvolvedor Full Stack (Freelancer)',
     period: '09/2025 - 04/2026',
     details: [
       'Desenvolvi um sistema web de gestao empresarial para pequenos comercios, centralizando vendas, estoque e financeiro.',
@@ -75,11 +75,11 @@ const experiences = [
       'Estruturei hierarquia de usuarios com controle de permissoes e visao por colaborador.',
       'Criei relatorios financeiros e indicadores como faturamento, lucro e ticket medio.',
     ],
-    stack: ['Next.js', 'TailwindCSS', 'API Routes', 'Supabase'],
+    stack: ['Next.js', 'TypeScript', 'API Routes', 'Supabase'],
   },
   {
     company: 'Loytag',
-    role: 'Desenvolvedor Full Stack',
+    role: 'Desenvolvedor Full Stack (Freelancer)',
     period: '08/2025 - 02/2026',
     details: [
       'Desenvolvi sistema de gestao de hospedagens com automacao via QR Code e NFC.',
@@ -87,7 +87,7 @@ const experiences = [
       'Criei painel administrativo para gerenciamento de imoveis e acompanhamento em tempo real.',
       'Reduzi interacoes manuais e melhorei a experiencia de hospedes e gestores.',
     ],
-    stack: ['React', 'Node.js', 'Prisma', 'MySQL'],
+    stack: ['React', 'JavaScript', 'Node.js', 'MySQL'],
   },
   {
     company: 'Comercial Scardua',
@@ -105,12 +105,12 @@ const experiences = [
     role: 'Desenvolvedor Front End',
     period: '09/2024 - 01/2025',
     details: [
-      'Liderei a equipe de desenvolvimento em projeto mobile utilizando FlutterFlow.',
+      'Liderei a equipe de desenvolvimento em projeto mobile utilizando React Native.',
       'Desenvolvi interfaces e fluxos UI/UX focados em usabilidade e responsividade.',
       'Reduzi o tempo de entrega em 30 por cento.',
       'Aumentei a retencao de usuarios em 40 por cento durante a fase de testes.',
     ],
-    stack: ['FlutterFlow', 'UI/UX', 'Lideranca', 'Mobile'],
+    stack: ['React Native', 'UI/UX'],
   },
   {
     company: 'Compilando Ja',
@@ -148,15 +148,15 @@ const courses = [
 const skills = [
   {
     title: 'Front-end',
-    items: ['HTML', 'CSS', 'Sass', 'JavaScript', 'TypeScript', 'React', 'Next.js', 'Angular', 'TailwindCSS', 'StyledComponents'],
+    items: ['Angular', 'Next.js', 'JavaScript', 'TypeScript', 'TailwindCSS'],
   },
   {
     title: 'Mobile',
-    items: ['React Native', 'FlutterFlow'],
+    items: ['React Native'],
   },
   {
     title: 'Back-end',
-    items: ['Node.js', 'NestJS', 'Java', 'Prisma'],
+    items: ['Node.js', 'NestJS', 'Java', 'Spring Boot'],
   },
   {
     title: 'Banco de dados',
@@ -164,7 +164,7 @@ const skills = [
   },
   {
     title: 'Outros',
-    items: ['Docker', 'GraphQL', 'Apollo', 'Figma', 'Azure', 'AWS', 'Spring Boot'],
+    items: ['Docker', 'GraphQL', 'AWS', 'CI/CD', 'GitHub Actions'],
   },
 ];
 
