@@ -5,10 +5,11 @@ import type { CSSProperties } from 'react';
 import HeroSection from './components/HeroSection';
 import ProjectsSection from './components/ProjectsSection';
 import { useTheme } from './contexts/ThemeContext';
+import { FiExternalLink } from 'react-icons/fi';
 
 const ORIGIN_RGB = [59, 130, 246] as const;
 const IMPACT_RGB = [249, 115, 22] as const;
-const SECTION_KEYS = ['hero', 'resumo', 'experiencia', 'formacao', 'projetos', 'competencias', 'contato'] as const;
+const SECTION_KEYS = ['hero', 'resumo', 'experiencia', 'projetos', 'competencias', 'formacao', 'contato'] as const;
 
 type SectionKey = (typeof SECTION_KEYS)[number];
 
@@ -139,10 +140,10 @@ const education = [
 ];
 
 const courses = [
-  'SENAI - Tecnico em Desenvolvimento de Sistemas',
-  'Udemy - JavaScript e TypeScript do basico ao avancado',
-  'Alura - Docker: criando e gerenciando containers',
-  'Alura - Next.js Full stack: arquitetura de componentes Front-end',
+  { name: 'SENAI - Tecnico em Desenvolvimento de Sistemas', link: '' },
+  { name: 'Udemy - JavaScript e TypeScript do basico ao avancado', link: '' },
+  { name: 'Alura - Docker: criando e gerenciando containers', link: '' },
+  { name: 'Alura - Next.js Full stack: arquitetura de componentes Front-end', link: '' },
 ];
 
 const skills = [
@@ -187,9 +188,9 @@ export default function Home() {
     hero: 220,
     resumo: 820,
     experiencia: 1420,
-    formacao: 2060,
-    projetos: 2720,
-    competencias: 3420,
+    projetos: 2060,
+    competencias: 2720,
+    formacao: 3420,
     contato: 4140,
   });
 
@@ -368,47 +369,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section
-        id="formacao"
-        className="relative border-t border-white/8 py-24"
-        ref={setSectionRef('formacao')}
-        style={getSectionStyle(sectionProgress.formacao)}
-      >
-        <div className="section-backdrop absolute inset-0 opacity-60" />
-        <div className="section-container">
-          <div className="section-header">
-            <span className="section-eyebrow mb-4 inline-block">Formacao e cursos</span>
-            <h2 className="mb-4 text-4xl font-bold text-white sm:text-5xl">
-              Base academica e aprendizado continuo.
-            </h2>
-          </div>
-
-          <div className="info-grid">
-            <div className="glass info-card">
-              <h3 className="info-card-title">Formacao academica</h3>
-              <div className="info-list">
-                {education.map((item) => (
-                  <article key={`${item.institution}-${item.title}`} className="info-list-item">
-                    <span className="info-overline">{item.period}</span>
-                    <h4 className="text-xl font-semibold text-white">{item.title}</h4>
-                    <p className="text-gray-400">{item.institution}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
-
-            <div className="glass info-card">
-              <h3 className="info-card-title">Cursos</h3>
-              <ul className="simple-list">
-                {courses.map((course) => (
-                  <li key={course}>{course}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <ProjectsSection
         sectionRef={setSectionRef('projetos')}
         accentColor={projectsAccentColor}
@@ -444,6 +404,70 @@ export default function Home() {
                 </div>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="formacao"
+        className="relative border-t border-white/8 py-24"
+        ref={setSectionRef('formacao')}
+        style={getSectionStyle(sectionProgress.formacao)}
+      >
+        <div className="section-backdrop absolute inset-0 opacity-60" />
+        <div className="section-container">
+          <div className="section-header">
+            <span className="section-eyebrow mb-4 inline-block">Formacao e cursos</span>
+            <h2 className="mb-4 text-4xl font-bold text-white sm:text-5xl">
+              Base academica e aprendizado continuo.
+            </h2>
+          </div>
+
+          <div className="info-grid">
+            <div className="glass info-card">
+              <h3 className="info-card-title">Formacao academica</h3>
+              <div className="info-list">
+                {education.map((item) => (
+                  <article key={`${item.institution}-${item.title}`} className="info-list-item">
+                    <span className="info-overline">{item.period}</span>
+                    <h4 className="text-xl font-semibold text-white">{item.title}</h4>
+                    <p className="text-gray-400">{item.institution}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            <div className="glass info-card">
+              <h3 className="info-card-title">Cursos e Idiomas</h3>
+              
+              <ul className="simple-list mb-8">
+                {courses.map((course) => (
+                  <li key={course.name} className="flex items-center justify-between group">
+                    <span>{course.name}</span>
+                    {course.link && (
+                      <a
+                        href={course.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-400 opacity-50 transition-all hover:text-white hover:opacity-100 group-hover:opacity-100"
+                        title="Ver Certificado"
+                      >
+                        <FiExternalLink size={18} />
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ul>
+
+              <h4 className="text-lg font-semibold text-white mb-4">Idiomas</h4>
+              <ul className="simple-list">
+                <li className="flex items-center justify-between group">
+                  <span>
+                    Inglês Intermediário <span className="text-gray-400 text-sm ml-1">(em desenvolvimento – curso pela Open English)</span>
+                  </span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
