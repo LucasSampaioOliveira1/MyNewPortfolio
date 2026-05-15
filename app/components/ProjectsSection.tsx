@@ -82,17 +82,17 @@ const projects: Project[] = [
     liveUrl: "https://www.clinicalunarpsicologia.com.br/",
     // githubUrl: "#"
   },
-  // {
-  //   id: 6,
-  //   title: "Pincel da Aprendizagem",
-  //   description: "Projeto web para ajudar crianças a se desenvolver em diferentes areas.",
-  //   category: "Educational",
-  //   technologies: ["React", "JavaScript", "Prisma", "Python", "MySQL"],
-  //   highlight: "Tarefas lúdicas para estimular criatividade e aprendizado",
-  //   metrics: "85% das crianças completam as tarefas com engajamento e 92% relatam maior interesse nas áreas propostas",
-  //   liveUrl: "https://pincel-dusky.vercel.app/",
-  //   // githubUrl: "#"
-  // },
+  {
+    id: 6,
+    title: "Adeibson Araújo",
+    description: "Projeto Freelancer - Landing Page",
+    category: "Landing Page",
+    technologies: ["Next.js", "TailwindCSS", "TypeScript"],
+    highlight: "Aumentar conversão e clientes",
+    metrics: "80% de conversão e aumento de clientes",
+    liveUrl: "https://adeibsonaraujo.com/",
+    githubUrl: "https://github.com/LucasSampaioOliveira1/Landing-Page-Adeib"
+  },
 ];
 
 const categoryIcons: Record<string, IconType> = {

@@ -157,15 +157,15 @@ const skills = [
   },
   {
     title: 'Back-end',
-    items: ['Node.js', 'NestJS', 'Java', 'Spring Boot'],
+    items: ['Node.js', 'NestJS', 'GraphQL', 'Java', 'Spring Boot'],
   },
   {
     title: 'Banco de dados',
-    items: ['MySQL', 'PostgreSQL'],
+    items: ['MySQL', 'PostgreSQL', 'Prisma ORM', 'Redis'],
   },
   {
-    title: 'Outros',
-    items: ['Docker', 'GraphQL', 'AWS', 'CI/CD', 'GitHub Actions'],
+    title: 'DevOps',
+    items: ['Docker', 'RabbitMQ', 'CI/CD', 'GitHub Actions'],
   },
 ];
 
